@@ -25,8 +25,8 @@ def getEnvList(name, default=""):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 if not SECRET_KEY:
-    #raise RuntimeError('DJANGO_SECRET_KEY must be set')
-    SECRET_KEY = 'django-insecure-(k604)8no(%@0wm*7mbe5gj972ho%mqk!rzx*g7hwhrifd&#=r'
+    raise RuntimeError('DJANGO_SECRET_KEY must be set')
+    #SECRET_KEY = 'django-insecure-(k604)8no(%@0wm*7mbe5gj972ho%mqk!rzx*g7hwhrifd&#=r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get('DJANGO_DEBUG', 'False')).lower() in ['1', 'true', 'yes']
