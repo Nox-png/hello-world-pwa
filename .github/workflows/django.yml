@@ -1,0 +1,51 @@
+name: Django Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - dev
+
+  pull_request:
+    branches:
+      - main
+      - master
+      - dev
+
+jobs:
+  test:
+    name: Run Django tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v6
+
+      - name: Python einrichten
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: Zufälligen Django Secret Key erzeugen
+        run: |
+          python <<'PY' >> "$GITHUB_ENV"
+          import secrets
+
+          secretKey = secrets.token_urlsafe(64)
+
+          print(f"DJANGO_SECRET_KEY={secretKey}")
+          PY
+
+      - name: Virtuelle Umgebung erstellen und Abhängigkeiten installieren
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+
+      - name: Django API Tests ausführen
+        run: |
+          . .venv/bin/activate
+          python app/manage.py test api.tests
