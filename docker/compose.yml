@@ -1,9 +1,10 @@
 services:
   helloworldpwa:  
-    container_name: helloworldpwa  
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    container_name: helloworldpwa 
+    image: ghcr.io/nox-png/hello-world-pwa:latest
+    # build:
+    #   context: ..
+    #   dockerfile: docker/Dockerfile
     env_file:
       - example.env
     ports:
