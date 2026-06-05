@@ -1,0 +1,73 @@
+
+    <html>
+    <head>
+        <title>Tabellen Dokumentation</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                background: #f4f6fa;
+                color: #222;
+                margin: 0;
+                padding: 0 0 40px 0;
+            }
+            h1 {
+                background: #2a5298;
+                color: #fff;
+                padding: 24px 32px 16px 32px;
+                margin: 0 0 32px 0;
+                box-shadow: 0 2px 8px #0001;
+            }
+            h2 {
+                color: #2a5298;
+                margin: 32px 0 8px 32px;
+            }
+            table {
+                border-collapse: collapse;
+                margin: 0 0 32px 32px;
+                background: #fff;
+                box-shadow: 0 2px 8px #0001;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            th, td {
+                padding: 10px 18px;
+                border-bottom: 1px solid #e0e6ed;
+            }
+            th {
+                background: #e3ecfa;
+                color: #2a5298;
+                font-weight: 600;
+            }
+            tr:last-child td {
+                border-bottom: none;
+            }
+            tr:nth-child(even) td {
+                background: #f7fafd;
+            }
+            tr:hover td {
+                background: #d0e2ff;
+            }
+            .field-true {
+                color: #388e3c;
+                font-weight: bold;
+            }
+            .field-false {
+                color: #d32f2f;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hello World PWA Datenmodell Dokumentation</h1>
+    <h2>UserProfile - Modul: accounts</h2>
+        <table>
+            <tr>
+                <th>Feldname</th>
+                <th>Datentyp - (Länge)</th>
+                <!-- <th>Verbose Name</th> -->
+                <th>Null</th>
+                <th>Leer</th>
+                <th>Standardwert</th>
+                <th>Beschreibung</th>
+            </tr>
+        <tr><td>id</td><td>BigAutoField</td><td class='field-false'>False</td><td class='field-true'>True</td><td><class 'django.db.models.fields.NOT_PROVIDED'></td><td></td></tr><tr><td>user</td><td>OneToOneField</td><td class='field-false'>False</td><td class='field-false'>False</td><td><class 'django.db.models.fields.NOT_PROVIDED'></td><td>Referenzierender Nutzer aus dem Django User Model</td></tr><tr><td>profileImage</td><td>BinaryField</td><td class='field-true'>True</td><td class='field-true'>True</td><td><class 'django.db.models.fields.NOT_PROVIDED'></td><td>Profilbild als Binärdaten</td></tr><tr><td>profileImageContentType</td><td>CharField (100)</td><td class='field-true'>True</td><td class='field-true'>True</td><td><class 'django.db.models.fields.NOT_PROVIDED'></td><td>MIME-Type des Profilbilds</td></tr></table></body></html>

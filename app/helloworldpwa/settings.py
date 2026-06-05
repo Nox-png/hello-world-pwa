@@ -16,17 +16,36 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+def getEnvList(name, default=""):
+    return [entry.strip() for entry in os.environ.get(name, default).split(',') if entry.strip()]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(k604)8no(%@0wm*7mbe5gj972ho%mqk!rzx*g7hwhrifd&#=r'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    #raise RuntimeError('DJANGO_SECRET_KEY must be set')
+    SECRET_KEY = 'django-insecure-(k604)8no(%@0wm*7mbe5gj972ho%mqk!rzx*g7hwhrifd&#=r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.environ.get('DJANGO_DEBUG', 'False')).lower() in ['1', 'true', 'yes']
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = getEnvList('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1')
+CSRF_TRUSTED_ORIGINS = getEnvList('DJANGO_CSRF_TRUSTED_ORIGINS', 'http://localhost,https://localhost,http://127.0.0.1,https://127.0.0.1')
+
+### Rest Framework - START ###
+defaultAuthClasses = ','.join([
+    'rest_framework.authentication.BasicAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+])
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': getEnvList('DJANGO_API_AUTH_CLASSES', defaultAuthClasses)
+}
+#### Rest Framework - ENDE ###
+
 
 ### PWA - START ###
 
@@ -98,6 +117,9 @@ INSTALLED_APPS = [
 
     # Authentifizierung
     'accounts',
+    # Django Restframework
+    'rest_framework',
+    'rest_framework.authtoken',
     # PWA Section
     'pwa',
     # Web Darstellung
@@ -106,6 +128,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -140,12 +163,28 @@ WSGI_APPLICATION = 'helloworldpwa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+databaseEngine = os.environ.get('DB_ENGINE', 'sqlite').lower()
+
+if databaseEngine == "mysql":
+    DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ['DB_DATABASE'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ.get('DB_PORT', '3306'),
     }
 }
+else:
+
+    DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 
 # Password validation

@@ -1,0 +1,142 @@
+{% extends "web/base.html" %}
+
+{% block title %}Benutzer Profil{% endblock title %}
+
+
+{% block content %}   
+
+    <main class="container" style="margin-top: 90px; max-width: 1080px;">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h2 class="card-title mb-0">Profil</h2>
+                    <span class="badge bg-dark">Benutzer: {{ request.user.username }}</span>
+                </div>
+
+                {% if statusMessage %}
+                    <div class="alert alert-{{ statusType }} mb-4" role="alert">
+                        {{ statusMessage }}
+                    </div>
+                {% endif %}
+
+                <div class="row g-4">
+                    <div class="col-12 col-md-4" style="padding-right: 20px;">
+                        <div class="card border-0 bg-light h-100">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <img id="profileImagePreview" src="{% url 'accounts:profile_image' %}" class="rounded-circle shadow-sm" width="140" height="140" alt="Profilbild"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i id="profileImageFallback" class="fa-solid fa-circle-user" style="font-size: 140px; display: none;"></i>
+                                </div>
+
+                                <div class="small text-muted mb-3">
+                                    Quadratische Bilder wirken am besten.
+                                </div>
+
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="saveImage" value="1">
+
+                                    <div class="mb-2">
+                                        <label class="form-label d-block text-center">
+                                            Profilbild
+                                        </label>
+
+                                        <div class="profile-image-input-wrapper">
+                                            {{ profileForm.profileImage }}
+                                        </div>
+
+                                        <label for="id_profileImage" class="btn btn-outline-secondary w-100">
+                                            Bild auswählen
+                                        </label>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        Bild speichern
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="card border-0 bg-white h-100 shadow-sm">
+                            <div class="card-body">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="saveProfile" value="1">
+
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">Vorname</label>
+                                            {{ userForm.first_name }}
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">Nachname</label>
+                                            {{ userForm.last_name }}
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label">E-Mail</label>
+                                            {{ userForm.email }}
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <a class="btn btn-outline-secondary" href="{% url 'password_change' %}">
+                                            Passwort ändern
+                                        </a>
+
+                                        <button type="submit" class="btn btn-primary">
+                                            Profil speichern
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        .profile-image-input-wrapper input[type="file"] {
+            display: none;
+        }
+    </style>
+
+    <script>
+        (function () {
+            const input = document.getElementById("id_profileImage");
+            const preview = document.getElementById("profileImagePreview");
+            const fallback = document.getElementById("profileImageFallback");
+
+            if (!input || !preview) {
+                return;
+            }
+
+            input.addEventListener("change", function (event) {
+                const file = event.target.files && event.target.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = "inline-block";
+
+                    if (fallback) {
+                        fallback.style.display = "none";
+                    }
+                };
+
+                reader.readAsDataURL(file);
+            });
+        })();
+    </script>
+{% endblock content %}

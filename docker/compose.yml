@@ -1,0 +1,32 @@
+services:
+  helloworldpwa:  
+    container_name: helloworldpwa  
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - example.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+      restart: always
+      image: mysql:9.4.0
+      container_name: helloworldpwa-Datenbank
+      env_file:
+        - example.env
+      volumes:
+      - ./volumes/db_data:/var/lib/mysql
+      healthcheck:
+        test: mysqladmin ping -h 127.0.0.1 -u $$DB_USER --password=$$DB_PASSWORD
+        start_period: 5s
+        interval: 5s
+        timeout: 5s
+        retries: 55
+      deploy:
+        resources:
+          limits:
+            memory: 2GB
