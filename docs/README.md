@@ -1,0 +1,91 @@
+- 1.0: Projekt initializierung
+    - Git ignore File erstellen und befüllen
+    - VENV Verzeichnis erstellen und via PIP Django installieren
+        - ```python -m venv .venv```
+        - ```.\venv\Scripts\activate```
+        - ```python -m pip install django```
+    - Python Projekt starten
+        - ```django-admin startproject testapp```
+- 1.1: EInfache Startseite
+    - Neue Python App "web" fürs Frontend erstellen
+        - ```python .\manage.py startapp web```
+    - Neues Modul "web" in ```testapp\testapp\settings.py``` registrieren
+    - Urls in ```./testapp/urls.py```  setzen
+    - Url File in ```./web/urls.py```  erstellen und befüllen
+    - HTML Template in ```web\templates\web\base.html``` erstellen und leer befüllen
+    - View für Web erstellen, beispiel "index"
+- 1.2: Beispiele für Authentifizierung / 1.3: Datenbank initialisierung
+    - Datenbank initialisieren
+        - Zur Sicherheit erst ```python .\manage.py makemigrations``` ausführen
+        - Dann ```python .\manage.py migrate```
+        Somit ist eine Datenbank erstellt, diese enthält alle notwendigen Starttabellen
+- 1.3 - 1.4: Authentifizierung
+    - Benutzer Login Oberfläche erstellen
+        - Neue App "accounts" erstellen
+        - ```python .\manage.py startapp accounts```
+        - Neues Modul "accounts" in ```testapp\testapp\settings.py``` registrieren
+        - Urls in ```./testapp/urls.py```  setzen (contrib url für die auth methode)
+        - Url File in ```./accounts/urls.py```  erstellen und befüllen
+        - HTML Template in ```testapp\accounts\templates\accounts\login.html``` erstellen als extend base.html und nur mit dem nötigsten befüllen
+        - View für accounts erstellen, beispiel "loginView" und "logoutView"
+        - Superuser für Test erstellen ```python .\manage.py createsuperuser```
+- 2.0: PWA
+    - Erstellung von Statischen Files (INFO: wenn DEBUG True werden alle entsprechenden Module angesprochen, bei False muss ein ```python manage.py collectstatic``` erfolgen)
+        - Erstellen des Ordners ```static/``` in ```web``` -- Hier werden alle weiteren assets dann abgelegt in Struktur
+        - Favicon (TEST) unter ```web\static\images\favicon.png``` ablegen.
+    - Konfiguration der Applikation in eine PWA
+        - Via PIP entsprechendes PWA Paket installieren 
+        - Erstellung einer offline seite (entsprechend view und template in "web" definieren)
+        - Service Worker in ```web\static\pwa\serviceworker.js``` erstellen
+        - Entsprechende Konfiguration in ```testapp\settings.py``` hinterlegen (Eintrag in INSTALLED APPS nicht vergessen!)
+        - Templates entsprechend mit "{% load pwa %}" ergänzen und in den header "{% progressive_web_app_meta %}" packen
+        - Alle nötigen Rest-Assets bereitstellen (favicon -> 160x160, screenshot-desktop, screenshot-mobile) 
+- 2.1: Indiv. Context Processors
+    - Einführung eines indiv. Context Processors für entsprechende Werte unter ```web\context_processors.py```
+    - Hinterlegung der erstellen context processor Funktionen in ```testapp\testapp\settings.py```
+- 2.2: CSS mit Navbar
+    - Hinterlegung eines CDN von Bootstrap 5 und erste Design Entscheidungen (hier Sidebar)
+    - Entsprechende Templates angepasst und korrigiert.
+    - Entsprechende CDNs für CSS und JS in ```web\templates\web\base.html``` hinterlegt
+- 2.3: Benutzerprofil hinzufügen, Bild integration
+    - Modul Accounts:
+        - Model Erweiterungen durchführen
+            - Änderungen festschreiben ```python .\manage.py makemigrations```
+            - Dann mit ```python .\manage.py migrate``` übernehmen
+        - Entsprechende Forms erstellen
+        - Neue Views erstellen
+        - Entsprechende urls hinterlegen
+        - Neues Template definieren
+    - Modul Web:
+        - Navbar optimieren
+        - Benutzerbereich und Versionsbereich rausgliedern  in eigene Files
+        - base.css auftrennen in desktop.css und mobile.css
+- 2.4: Erstellen eines Requirement Files und weitere Web Optimierungen 
+    - ```python -m pip freeze > requirements.txt``` aus der aktuellen ```.venv``` Umgebung ausführen um die requirements.txt zu erstellen
+    - Umbennenung vom Übergordneten Order "testapp" in "app" für spätere einfachheit
+    - Einführung neuer Views für "health", "robot.txt", "security.txt" und "offline"
+- 3.0: Django REST Framework
+    - Neue App "api"
+        - ```python .\manage.py startapp api```
+        - Erstellung der entsprechenden Files "urls.py" und "views.py" mit Erster view "getRoutes" und Pfad ''
+    - Installation der Bibl. "djangorestframework"
+        - ```python -m pip install djangorestframework```
+    - Entsprechende Konfiguration in ```testapp\settings.py``` hinterlegen (Eintrag in INSTALLED APPS nicht vergessen!)
+    - Migration der installierten App DRF (Django Restframework) durchführen via ```python manage.py migrate``` (Kein ```makemigrations``` notwendig)
+- 3.1: Individuelles API Modul + Unit Tests
+    - Erstellung von "modules" im Ordner api
+    - Erstellung des View Files für Status "status" wie folgt: api/modules/status/statusViews.py
+    - Ergänzung in View "getRoutes" durchführen
+    - Erstellung der entsprechenden Tests für statusViews.py
+        - Erstellung des Ordners ```api\tests```
+        - Erstellung einer leeren ```app\api\tests\__init__.py``` Datei damit der Test auch die Module findet
+        - Erstellung eines Tests für unseren im Beispiel angeführten Status ```api\tests\testStatusViews.py```
+        - Test kann dann via ```python .\manage.py test api.tests``` ausgeführt werden
+- 4.0: Anpassungen Dokumentation und Skript Generierungen für Model Dokumentationen
+- 5.0: Start Docker Deployment
+    - Erstellung des Verzeichnisses "docker"
+    - Erstellung eines Dockerfiles
+    - Hinzufügen von Gunicorn sowie whitenoise (Für besseres Runtime mit Workers und Timeouts) in ```app\requirements.txt```
+        - Entsprechende Konfiguration in ```testapp\settings.py``` für die whitenoise middleware hinterlegen sowie Anpassung für den PWA Pfad im Container
+    - Erstellung einer "Example" Compose Datei
+- 6.0: CI/CD via github actions (.github\workflows\) entsprechende Workflows anlegen

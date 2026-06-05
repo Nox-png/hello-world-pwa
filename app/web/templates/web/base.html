@@ -1,0 +1,29 @@
+{% load static %}
+{% load pwa %}
+
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <!-- PWA META -->
+        {% progressive_web_app_meta %}
+        <meta charset="utf-8" />
+        <title>{% block title %} {{ softwarename }} {% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="Jonathan Glässel" />
+
+        <!-- Favicon icon -->
+        <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
+    </head>
+
+    <body>
+        {% block content %}
+        <main class="container welcome-container text-center">
+            <h1>Herzlich Willkommen auf der Startseite</h1><br>
+        </main>
+        {% endblock %}
+
+    <script src="/static/js/utils.js"></script>
+    </body>
+</html>
