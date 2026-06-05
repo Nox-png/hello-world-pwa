@@ -1,26 +1,48 @@
 {% extends "web/base.html" %}
 
-{% block title %}Login{% endblock title %}Login
+{% block title %}Login{% endblock title %}
 
-{% block content %}
-    <form role="form" method="post" action="">
-        {% csrf_token %}                   
-        <div>
-            {{ form.username }}
-        </div>
-        <div>
-            {{ form.password }}
-        </div>
-        <button type="submit" >Login</button>
-    </form>
+{% block content %}   
+    <div class="auth-wrapper d-flex justify-content-center align-items-center min-vh-100">
+        <div class="auth-content col-11 col-md-6 col-lg-4">
+            <div class="auth-bg">
+                <span class="r"></span>
+                <span class="r s"></span>
+                <span class="r s"></span>
+                <span class="r"></span>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="icon-unlock auth-icon"></i>
+                    </div>
+                    <h3 class="mb-4">Login</h3>         
 
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="message {{ message.tags }}">
-                    {{ message }}
+                    <form role="form" method="post" action="">
+
+                        {% csrf_token %}                   
+
+                        <div class="input-group mb-4" style="justify-content: center;">
+                            {{ form.username }}
+                        </div>
+                        
+                        <div class="input-group mb-4" style="justify-content: center;">
+                            {{ form.password }}
+                        </div>
+                        
+                       
+                        <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">Login</button>
+
+                    </form>
+
+                   
+                    <br />
+                    <p class="mb-2 text-muted">
+                        - <a>{{softwarenameshort}} | Version: {{versionnumber}}-{{buildNumber}}</a> -
+                    </p>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-    {% endif %} 
-{% endblock %}
+    </div>
+
+{% endblock content %}

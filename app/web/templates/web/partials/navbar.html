@@ -1,0 +1,49 @@
+{% load static %}
+
+<nav class="sidebar bg-dark text-white">
+    <div class="sidebar-header px-3 py-3">
+        <a class="navbar-brand text-white text-decoration-none" href="{% url 'web:index' %}">
+            <img src="{% static 'images/favicon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            {{softwarename}}
+        </a>
+
+        <div class="sidebar-mobile-actions">
+            {% include 'web/partials/components/userMenu.html' %}
+
+            <button class="btn btn-outline-light btn-sm sidebar-version-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMobileVersion" aria-expanded="false" aria-controls="sidebarMobileVersion" title="Versionsinformationen">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+        </div>
+    </div>
+
+    <hr class="text-secondary my-0">
+
+    <ul class="nav nav-pills flex-column gap-1 px-3 py-3">
+        <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'admin:index' %}">
+                {% comment %} <i class="fa-solid fa-envelope" aria-hidden="true"></i> {% endcomment %}
+                <span>Admin</span>
+            </a>
+            <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'api:getRoutes' %}">
+                {% comment %} <i class="fa-solid fa-envelope" aria-hidden="true"></i> {% endcomment %}
+                <span>API</span>
+            </a>
+            {% if request.user.is_authenticated %}
+                    <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'accounts:logoutView' %}">
+                    {% comment %} <i class="fa-solid fa-envelope" aria-hidden="true"></i> {% endcomment %}
+                    <span>Logout</span>
+            {% endif %}
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-footer px-3 py-3">
+        <div class="sidebar-desktop-user">
+            {% include 'web/partials/components/userMenu.html' %}
+        </div>
+
+        {% include 'web/partials/components/versionMenu.html' %}
+    </div>
+</nav>

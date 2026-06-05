@@ -2,8 +2,8 @@ from django.db import connection
 
 def versionnumber_processor(request):
     buildYear = 2026
-    versionNumber = "0.0.1"
-    buildNumber = "0000001"
+    versionNumber = "0.1.0"
+    buildNumber = "0000002"
     return {'versionnumber': versionNumber,'buildNumber': buildNumber, 'buildYear':buildYear,}
 def datenbank_processor(request):
     db_name = connection.settings_dict['NAME']

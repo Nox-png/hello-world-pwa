@@ -1,0 +1,43 @@
+{% if request.user.is_authenticated %}
+    <div class="dropdown user-menu-item">
+        <a class="nav-link user-menu-link d-flex flex-column align-items-center justify-content-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% url 'accounts:profile_image' %}" class="user-menu-image rounded-circle" alt="Profilbild"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+            <i class="fa-solid fa-circle-user user-menu-icon" style="display: none;"></i>
+
+            <span class="user-menu-name">
+                {{ request.user.username }}
+            </span>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li class="dropdown-item-text small">
+                {{ request.user.username }}
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                    Profil bearbeiten
+                </a>
+            </li>
+
+            {% comment %}
+            <li>
+                <a class="dropdown-item" href="{% url 'password_change' %}">
+                    Passwort ändern
+                </a>
+            </li>
+            {% endcomment %}
+
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="{% url 'accounts:logoutView' %}">
+                    Abmelden
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endif %}
