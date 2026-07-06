@@ -24,9 +24,9 @@ class StatusViewsTests(APITestCase):
             self.assertIn('Datenbank Version', response.json())
             self.assertIn('Datenbank Name', response.json())
             self.assertIn('Installationstyp', response.json())
-            print("✔️ Test: showStatus\n")
+            print("OK Test: showStatus\n")
         except AssertionError as e:
-            print(f"❌ Test fehlgeschlagen: {e}")
+            print(f"FAILED Test fehlgeschlagen: {e}")
             print("Antwort:", response.content)
             print()
             raise
@@ -38,7 +38,7 @@ class StatusViewsTests(APITestCase):
         response = unauth_client.get(url)
         print("Response-Content:", response.content.decode())
         self.assertIn(response.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
-        print("✔️ Test: showStatus requires auth\n")
+        print("OK Test: showStatus requires auth\n")
 
     @patch('api.modules.status.statusViews.getDBVersion', side_effect=Exception('db failed'))
     def test_showStatus_internal_error_payload(self, _mock_db_version):
@@ -48,7 +48,7 @@ class StatusViewsTests(APITestCase):
         print("Response-Content:", response.content.decode())
         self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
         self.assertEqual(response.json().get('error'), 'Interner Serverfehler.')
-        print("✔️ Test: showStatus internal error payload\n")
+        print("OK Test: showStatus internal error payload\n")
 
     def test_health_check_public(self):
         print("Test: Öffentlicher Health-Check")
@@ -62,7 +62,7 @@ class StatusViewsTests(APITestCase):
         self.assertIn('app', response.json())
         self.assertIn('checks', response.json())
         self.assertEqual(response.json().get('checks', {}).get('database'), 'ok')
-        print("✔️ Test: health check public\n")
+        print("OK Test: health check public\n")
 
     @patch('web.views.get_database_health', return_value=(False, 'db down'))
     def test_health_check_degraded(self, _mock_health):
@@ -74,4 +74,4 @@ class StatusViewsTests(APITestCase):
         self.assertEqual(response.json().get('status'), 'degraded')
         self.assertEqual(response.json().get('checks', {}).get('database'), 'error')
         self.assertIn('database_error', response.json().get('checks', {}))
-        print("✔️ Test: health check degraded\n")
+        print("OK Test: health check degraded\n")

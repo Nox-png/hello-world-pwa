@@ -1,0 +1,108 @@
+my-learning-app/
+├── manage.py
+├── requirements.txt
+├── .env.example
+├── README.md
+│
+├── config/                          # Project configuration
+│   ├── __init__.py
+│   ├── settings.py                  # Django settings (split dev/prod)
+│   ├── urls.py                      # Main URL router
+│   ├── wsgi.py
+│   └── asgi.py
+│
+├── apps/                            # Django applications
+│   ├── users/                       # User management & authentication
+│   │   ├── migrations/
+│   │   ├── models.py                # User, Profile models
+│   │   ├── views.py                 # Registration, login views
+│   │   ├── serializers.py           # DRF serializers
+│   │   ├── urls.py
+│   │   └── admin.py
+│   │
+│   ├── courses/                     # Course management
+│   │   ├── migrations/
+│   │   ├── models.py                # Course, Lesson, Module models
+│   │   ├── views.py                 # Course listing, detail views
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── admin.py
+│   │
+│   ├── lessons/                     # Lesson content delivery
+│   │   ├── migrations/
+│   │   ├── models.py                # Lesson, Content, Resource models
+│   │   ├── views.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── admin.py
+│   │
+│   ├── assessments/                 # Quizzes & tests
+│   │   ├── migrations/
+│   │   ├── models.py                # Quiz, Question, Answer models
+│   │   ├── views.py                 # Quiz logic, grading
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── admin.py
+│   │
+│   ├── progress/                    # Learning progress tracking
+│   │   ├── migrations/
+│   │   ├── models.py                # Progress, Completion, Badge models
+│   │   ├── views.py                 # Progress dashboard, stats
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── admin.py
+│   │
+│   ├── recommendations/             # AI/personalized recommendations
+│   │   ├── migrations/
+│   │   ├── models.py                # Learning path, recommendation models
+│   │   ├── views.py                 # Recommendation engine views
+│   │   ├── services.py              # Business logic for recommendations
+│   │   ├── urls.py
+│   │   └── admin.py
+│   │
+│   └── forum/                       # Discussion & Q&A
+│       ├── migrations/
+│       ├── models.py                # Thread, Post, Reply models
+│       ├── views.py
+│       ├── serializers.py
+│       ├── urls.py
+│       └── admin.py
+│
+├── static/                          # CSS, JS, images
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── main.js
+│   └── images/
+│
+├── templates/                       # HTML templates (if using server-side rendering)
+│   ├── base.html
+│   ├── home.html
+│   ├── courses/
+│   │   ├── course_list.html
+│   │   └── course_detail.html
+│   ├── lessons/
+│   └── auth/
+│       ├── login.html
+│       └── register.html
+│
+├── media/                           # User-uploaded files (videos, docs)
+│   ├── course_videos/
+│   ├── resources/
+│   └── user_uploads/
+│
+├── tests/                           # Test suites
+│   ├── test_users.py
+│   ├── test_courses.py
+│   ├── test_assessments.py
+│   └── test_progress.py
+│
+├── utils/                           # Utility functions
+│   ├── decorators.py
+│   ├── helpers.py
+│   └── pagination.py
+│
+└── docs/                            # Project documentation
+    ├── API.md
+    ├── MODELS.md
+    └── SETUP.md

@@ -3,14 +3,14 @@ FROM python:3.14-alpine
 
 # 1.1 System-Pakete für den Build
 RUN apk add --no-cache \
-      build-base \                
-      mariadb-connector-c-dev \   
+      build-base \
+      mariadb-connector-c-dev \
       pkgconfig
-      
+
 # Erstelle das App Verzeichnis
 RUN mkdir -p /app
 # Kopiere das Verzeichnis "App" vom Projektordner ins Dockerimage
-COPY ../app /app
+COPY app /app
 # Veröffentliche Port 8000
 EXPOSE 8000
 # Ändere das Arbeitsverzeichnis

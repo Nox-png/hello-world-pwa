@@ -28,6 +28,11 @@ jobs:
           python-version: "3.13"
           cache: "pip"
 
+      - name: Systemabhaengigkeiten installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential default-libmysqlclient-dev pkg-config
+
       - name: Zufälligen Django Secret Key erzeugen
         run: |
           python <<'PY' >> "$GITHUB_ENV"

@@ -98,7 +98,7 @@ PWA_APP_SCREENSHOTS = [
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'de-DE'
 
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'web\static\pwa\serviceworker.js')
+PWA_SERVICE_WORKER_PATH = BASE_DIR / 'web' / 'static' / 'pwa' / 'serviceworker.js'
 
 ### PWA - ENDE ###
 
