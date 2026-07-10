@@ -1,0 +1,53 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Mentor{% endblock %}
+
+{% block content %}
+<main class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="mb-4">Mentor Practice Studio</h1>
+            <p class="text-muted">Search a book or topic, and the app will generate 10 challenging practice problems with hints and solutions.</p>
+
+            <form method="get" class="row g-2 mb-4">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Search a book, topic, or filename">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="root" value="{{ search_root }}" placeholder="Optional folder to scan">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Generate</button>
+                </div>
+            </form>
+
+            {% if documents %}
+                <div class="alert alert-info">
+                    Found {{ documents|length }} matching document{{ documents|length|pluralize }} for “{{ query }}”.
+                </div>
+            {% endif %}
+
+            {% if problems %}
+                <h2 class="h5 mb-3">Practice Problems</h2>
+                <div class="list-group">
+                    {% for problem in problems %}
+                        <div class="list-group-item">
+                            <h3 class="h6">{{ problem.number }}. {{ problem.title }}</h3>
+                            <p class="mb-2">{{ problem.prompt }}</p>
+                            <div class="small text-muted mb-1"><strong>Hint:</strong> {{ problem.hint }}</div>
+                            <details>
+                                <summary class="text-primary">Show solution</summary>
+                                <div class="mt-2 small">{{ problem.solution }}</div>
+                            </details>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% elif query %}
+                <div class="alert alert-warning">No documents matched your search yet, so the mentor is using a general challenge set.</div>
+            {% else %}
+                <div class="alert alert-info">Enter a book title or topic to generate 10 practice problems.</div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -28,6 +28,9 @@
                 {% comment %} <i class="fa-solid fa-envelope" aria-hidden="true"></i> {% endcomment %}
                 <span>API</span>
             </a>
+            <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'web:mentor' %}">
+                <span>Mentor</span>
+            </a>
             {% if request.user.is_authenticated %}
                     <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'accounts:logoutView' %}">
                     {% comment %} <i class="fa-solid fa-envelope" aria-hidden="true"></i> {% endcomment %}

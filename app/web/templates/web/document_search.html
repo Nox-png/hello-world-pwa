@@ -1,0 +1,60 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Document Search{% endblock %}
+
+{% block content %}
+<main class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="mb-4">Search your books and exercise papers</h1>
+            <form method="get" class="row g-2 mb-4">
+                <div class="col-md-6">
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="q"
+                        value="{{ query }}"
+                        placeholder="Search by title, topic, or filename"
+                    >
+                </div>
+                <div class="col-md-4">
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="root"
+                        value="{{ search_root }}"
+                        placeholder="Optional folder to scan"
+                    >
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </form>
+
+            {% if query %}
+                <p class="text-muted">Showing results for “{{ query }}”.</p>
+            {% endif %}
+
+            {% if results %}
+                <ul class="list-group">
+                    {% for result in results %}
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-start gap-3">
+                                <div>
+                                    <strong>{{ result.name }}</strong>
+                                    <div class="small text-muted">{{ result.path }}</div>
+                                </div>
+                                <span class="badge bg-secondary">{{ result.extension }}</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% elif query %}
+                <div class="alert alert-warning">No matching documents were found.</div>
+            {% else %}
+                <div class="alert alert-info">Enter a keyword to find PDF, DOC, DOCX, or EPUB files.</div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
